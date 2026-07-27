@@ -1,19 +1,13 @@
 # NLP Sentiment Analysis — Amazon Product Reviews
 
-> End-to-end NLP pipeline analyzing 5,000 Amazon product reviews across 5 categories using NLTK preprocessing, TextBlob polarity scoring, VADER compound scoring, and a TF-IDF + Logistic Regression ML classifier — with n-gram analysis, trend detection, and Tableau-ready exports.
-
----
-
-## Project Overview
-
-This project builds a complete sentiment analysis system for e-commerce product reviews. It simulates 5,000 Amazon reviews across Electronics, Clothing, Home & Kitchen, Sports, and Beauty categories, applies four sentiment analysis approaches, compares their accuracy, and delivers actionable business intelligence about customer sentiment trends.
+> End-to-end NLP pipeline analyzing 5,000 Amazon product reviews across 5 categories using NLTK preprocessing, TextBlob polarity scoring, VADER compound scoring, and TF-IDF + Logistic Regression — with n-gram analysis, trend detection, and an interactive Tableau dashboard.
 
 ---
 
 ## Architecture
 
 ```
-Review Generation (5,000 Amazon reviews, 5 categories)
+Review Generation (5,000 reviews, 5 categories)
         |
         v
 [ Stage 1: Generate     ]  src/data_generator.py  → realistic review text
@@ -26,21 +20,46 @@ Review Generation (5,000 Amazon reviews, 5 categories)
         |
         v
 [ Stage 4: DB Load      ]  src/db_loader.py       → SQLite + monthly trends
-        |
-        v
-[ Stage 5: Validate     ]  Query summary          → Tableau CSV export
 ```
 
 ---
 
-## NLP Methods Compared
+## NLP Results
 
-| Method | Type | Strength |
+| Method | Accuracy |
+|---|---|
+| TextBlob | 87.5% |
+| VADER | 81.8% |
+| Tools Agreement | 79.8% |
+
+---
+
+## Key Insights
+
+| Category | VADER Score | Sentiment |
 |---|---|---|
-| NLTK | Preprocessing | Tokenization, stopwords, stemming, lemmatization |
-| TextBlob | Lexicon-based | Polarity (-1 to 1) + Subjectivity (0 to 1) |
-| VADER | Rule-based | Compound score, optimized for review/social text |
-| TF-IDF + LR | ML-based | Learns from labeled data, highest accuracy |
+| Beauty | 0.4549 | Best |
+| Home & Kitchen | 0.4292 | Strong |
+| Sports | 0.3966 | Good |
+| Electronics | 0.3055 | Average |
+| Clothing | 0.1870 | Worst |
+
+- **Clothing** has highest negative review rate (41.2%) — quality concerns
+- **Beauty** most positively reviewed — strong brand satisfaction
+- Top positive bigrams: "highly recommend", "really good"
+- Top negative bigrams: "waste money", "poor quality", "not buy"
+
+---
+
+## 📊 Tableau Dashboard
+
+**Live Dashboard:** [NLP Sentiment Analysis — Amazon Reviews](https://public.tableau.com/app/profile/bala.shreya.reddy.yeruva/viz/NLPSentimentAnalysisAmazonReviews/NLPSentimentAnalysisAmazonReviewsYeruvaBalaShreyaReddy)
+
+Dashboard includes:
+- **Sentiment by Category** (stacked bar) — Positive/Neutral/Negative breakdown
+- **VADER Score by Category** (bar) — Beauty best (0.45), Clothing worst (0.19)
+- **Rating Distribution** (pie chart) — 5,000 reviews across 1-5 star ratings
+- **TextBlob vs VADER** (scatter) — correlation between two NLP tools per category
 
 ---
 
@@ -48,24 +67,11 @@ Review Generation (5,000 Amazon reviews, 5 categories)
 
 | Layer | Technology |
 |---|---|
-| Language | Python 3.11 |
 | NLP | NLTK 3.9, TextBlob 0.20, VADER 3.3 |
-| ML | scikit-learn 1.8 (TF-IDF + Logistic Regression) |
+| ML | TF-IDF + Logistic Regression (scikit-learn) |
 | Database | SQLite |
-| Visualization | CSV export → Tableau / Power BI |
+| Visualization | Tableau Dashboard |
 | Version Control | Git / GitHub |
-
----
-
-## Key Features
-
-- Text preprocessing: tokenization, stopword removal, lemmatization (NLTK)
-- Polarity and subjectivity scoring (TextBlob)
-- Compound sentiment scoring (VADER)
-- TF-IDF vectorization with bigrams (1,2)-gram range
-- N-gram analysis: top bigrams/trigrams per sentiment class
-- Monthly sentiment trend analysis by category
-- Ensemble voting: TextBlob + VADER majority
 
 ---
 
